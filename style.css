@@ -1,0 +1,15 @@
+body {
+    background-image: url(assets/ekNWCzx.jpg);
+}
+
+h1 {
+    color: lightblue;
+}
+
+#icon {
+    visibility: hidden;
+}
+
+h5 {
+    color: darkblue;
+}
