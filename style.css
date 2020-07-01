@@ -6,10 +6,22 @@ h1 {
     color: lightblue;
 }
 
+h5 {
+    background-color: white;
+    padding: 3px;
+}
 #icon {
     visibility: hidden;
 }
 
 h5 {
     color: darkblue;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+#cityWeath {
+    margin-bottom: 20px;
 }

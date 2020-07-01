@@ -11,19 +11,19 @@
 </head>
 
 <body>
-  
+
   <div class="container">
     <div class="row">
       <div class="col-md-4">
         <div class="page-header">
           <h1>Weather Search</h1>
-          
+
           <form>
-    
+
             <input placeholder="Enter City Here" id="cityWeath" />
             <button id="submit" class="primary">Let's Go!</button>
             <h3 id="prevViews"></h3>
-          
+
           </form>
 
         </div>
@@ -78,132 +78,95 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript">
-var submitEl= document.querySelector("#submit");
-var cityName= document.querySelector("#cityWeath");
-function renderLastRegistered() {
-  var cityName = localStorage.getItem("citySave");
-  var password = localStorage.getItem("password");
+    var submitEl = document.querySelector("#submit");
+    var cityName = document.querySelector("#cityWeath");
+    function renderLastRegistered() {
+      var cityName = localStorage.getItem("citySave");
+      var password = localStorage.getItem("password");
 
-  if (!cityName) {
-    return;
+      if (!cityName) {
+        return;
 
-    $('#cityWeath').attr("placeholder", cityName)
-  }
+        $('#cityWeath').attr("placeholder", cityName)
+      }
 
 
-}
-submitEl.addEventListener("click", function(event) {
-  event.preventDefault();
-  cityName = document.getElementById("cityWeath").value;
-  console.log(cityName);
-  $("#prevViews").prepend("<br><h5>" + cityName+"<h5>");
+    }
+    submitEl.addEventListener("click", function (event) {
+      event.preventDefault();
+      cityName = document.getElementById("cityWeath").value;
+      console.log(cityName);
+      $("#prevViews").prepend("<h5>" + cityName + "<h5>");
       localStorage.setItem("citySave", cityName);
-    renderLastRegistered();
+      renderLastRegistered();
 
-    // This is our API key
-    var APIKey = "402fe03746dde66fe92a09674269957b";
+      var APIKey = "402fe03746dde66fe92a09674269957b";
+      var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + APIKey;
 
-    // Here we are building the URL we need to query the database
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q="+cityName+"&appid=" + APIKey;
-
-    // Here we run our AJAX call to the OpenWeatherMap API
-    $.ajax({
-      url: queryURL,
-      method: "GET"
-    })
-      // We store all of the retrieved data inside of an object called "response"
-      .then(function (response) {
-
-        // Log the queryURL
-        console.log(queryURL);
-
-        // Log the resulting object
-        console.log(response);
-
-        // Transfer content to HTML
-        $(".city").html("<h1>" + response.name + " Weather Details</h1>");
-        var d = new Date();
-        var strDate = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
-        $(".date").text(strDate);
-        $(".wind").text("Wind Speed: " + response.wind.speed);
-        $(".humidity").text("Humidity: " + response.main.humidity);
-
-        // Convert the temp to fahrenheit
-        var tempF = (response.main.temp - 273.15) * 1.80 + 32;
-
-        // add temp content to html
-        $(".tempF").text("Temperature (F) " + tempF.toFixed(2));
-
-        // Log the data in the console as well
-        console.log("Wind Speed: " + response.wind.speed);
-        console.log("Humidity: " + response.main.humidity);
-        console.log("Temperature (F): " + tempF);
-        var latUvi = response.coord.lat;
-        var lonUvi = response.coord.lon;
-
-        var queryURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + latUvi + "&lon=" + lonUvi +
-          "&appid=" + APIKey;
-
-        // Here we run our AJAX call to the OpenWeatherMap API
-        $.ajax({
-          url: queryURL,
-          method: "GET"
-        })
-          // We store all of the retrieved data inside of an object called "response"
-          .then(function (response) {
-            console.log(response);
-            var uvInd = response.value;
-            $(".uvIndex").text("UV Index:  " + uvInd);
-            $(".uvIndex").css("color", "green");
-            if (uvInd > 6) {
-              $(".uvIndex").css("color", "dark yellow");
-            }
-            if (uvInd > 10) {
-              $(".uvIndex").css("color", "red");
-            }
-
-          });
-      });
-
-
-
-    var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q="+cityName+"&appid=" + APIKey;
-
-    // Here we run our AJAX call to the OpenWeatherMap API
-    $.ajax({
-      url: queryURL,
-      method: "GET"
-    })
-      // We store all of the retrieved data inside of an object called "response"
-      .then(function (response) {
-        console.log(response);
-
-        for (i = 0; i < 5; i++) {
-
-
-          console.log(response.list[i].main);
-          var d = new Date();
-          d.setDate(d.getDate()+i+1);
-        var strDate = (d.getMonth() + 1) + "/" + (d.getDate());
-        $(".uPdate"+i).text(strDate);
-          var iconcode = response.list[i].weather[0].icon;
-          var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
-          $('#wicon' + i).attr('src', iconurl);
-          $('#wicon' + i).css('visibility', 'visible');
-          var tempFor = (response.list[i].main.temp - 273.15) * 1.80 + 32;
-          $(".card-text" + i).text("T:" + tempFor.toFixed(2));
-
-        }
+      $.ajax({
+        url: queryURL,
+        method: "GET"
       })
-})
 
+        .then(function (response) {
+          $(".city").html("<h1>" + response.name + " Weather Details</h1>");
+          var d = new Date();
+          var strDate = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+          $(".date").text(strDate);
+          $(".wind").text("Wind Speed: " + response.wind.speed);
+          $(".humidity").text("Humidity: " + response.main.humidity);
+          var tempF = (response.main.temp - 273.15) * 1.80 + 32;
+          $(".tempF").text("Temperature (F) " + tempF.toFixed(2));
+          var latUvi = response.coord.lat;
+          var lonUvi = response.coord.lon;
+          var queryURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + latUvi + "&lon=" + lonUvi +
+            "&appid=" + APIKey;
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+          })
 
+            .then(function (response) {
+              console.log(response);
+              var uvInd = response.value;
+              $(".uvIndex").text("UV Index:  " + uvInd);
+              $(".uvIndex").css("color", "green");
+              if (uvInd > 6) {
+                $(".uvIndex").css("color", "dark yellow");
+              }
+              if (uvInd > 10) {
+                $(".uvIndex").css("color", "red");
+              }
+
+            });
+        });
+
+      var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + APIKey;
+
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+        .then(function (response) {
+          console.log(response);
+          for (i = 0; i < 5; i++) {
+            var d = new Date();
+            d.setDate(d.getDate() + i + 1);
+            var strDate = (d.getMonth() + 1) + "/" + (d.getDate());
+            $(".uPdate" + i).text(strDate);
+            var iconcode = response.list[i].weather[0].icon;
+            var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+            $('#wicon' + i).attr('src', iconurl);
+            $('#wicon' + i).css('visibility', 'visible');
+            var tempFor = (response.list[i].main.temp - 273.15) * 1.80 + 32;
+            $(".card-text" + i).text("T:" + tempFor.toFixed(2));
+
+          }
+        })
+    })
   </script>
 
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-
-  <!-- Bootstrap JavaScript CDN -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 </body>
