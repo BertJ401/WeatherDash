@@ -22,6 +22,7 @@
     
             <input placeholder="Enter City Here" id="cityWeath" />
             <button id="submit" class="primary">Let's Go!</button>
+            <h3 id="prevViews"></h3>
           
           </form>
 
@@ -95,7 +96,9 @@ submitEl.addEventListener("click", function(event) {
   event.preventDefault();
   cityName = document.getElementById("cityWeath").value;
   console.log(cityName);
-
+  $("#prevViews").prepend("<br><h5>" + cityName+"<h5>");
+      localStorage.setItem("citySave", cityName);
+    renderLastRegistered();
 
     // This is our API key
     var APIKey = "402fe03746dde66fe92a09674269957b";
@@ -192,9 +195,9 @@ submitEl.addEventListener("click", function(event) {
 
         }
       })
-      localStorage.setItem("citySave", cityName);
-    renderLastRegistered();
 })
+
+
   </script>
 
 
