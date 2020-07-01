@@ -44,26 +44,31 @@
                   <p class="uPdate0"></p>
                   <div id="icon"><img id="wicon0" src="" alt="Weather icon"></div>
                   <p class="card-text0"></p>
+                  <p class="card-hum0"></p>
                 </div>
                 <div class="col-md-2">
                   <p class="uPdate1"></p>
                   <div id="icon"><img id="wicon1" src="" alt="Weather icon"></div>
                   <p class="card-text1"></p>
+                  <p class="card-hum1"></p>
                 </div>
                 <div class="col-md-2">
                   <p class="uPdate2"></p>
                   <div id="icon"><img id="wicon2" src="" alt="Weather icon"></div>
                   <p class="card-text2"></p>
+                  <p class="card-hum2"></p>
                 </div>
                 <div class="col-md-2">
                   <p class="uPdate3"></p>
                   <div id="icon"><img id="wicon3" src="" alt="Weather icon"></div>
                   <p class="card-text3"></p>
+                  <p class="card-hum3"></p>
                 </div>
                 <div class="col-md-2">
                   <p class="uPdate4"></p>
                   <div id="icon"><img id="wicon4" src="" alt="Weather icon"></div>
                   <p class="card-text4"></p>
+                  <p class="card-hum4"></p>
                 </div>
               </div>
             </div>
@@ -160,7 +165,7 @@
             $('#wicon' + i).css('visibility', 'visible');
             var tempFor = (response.list[i].main.temp - 273.15) * 1.80 + 32;
             $(".card-text" + i).text("T:" + tempFor.toFixed(2));
-
+            $('.card-hum'+i).text('H:'+response.list[i].main.humidity+"%");
           }
         })
     })
